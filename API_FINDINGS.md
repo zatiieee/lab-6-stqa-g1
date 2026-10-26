@@ -77,10 +77,9 @@ Response body:
 
 ## Notes
 
-- Content-Type for every route is `application/json; charset=utf-8`,
-  not plain `application/json` as used in Part 1.
+- Content-Type for every route is `application/json; charset=utf-8`, not plain `application/json` as used in Part 1.
 - GET /posts/1 returned a JSON object containing `userId`, `id`, `title`, and `body`.
 - GET /posts returned a JSON array containing 100 post objects.
-- POST /posts returned status code 201 and the server added a new `id` value of 101.
-- DELETE /posts/1 returned status code 200 with an empty JSON object `{}`.
-- Conclusion: The API returned the expected success responses for all four routes tested. This shows that API testing should check not only the status code, but also the response headers and the structure of the response body.
+- POST /posts returned status code 201 and a new id of 101. However, a follow-up GET /posts/101 returned 404, showing that the new post was not permanently stored.
+- DELETE /posts/1 returned status code 200 with an empty JSON object `{}`. However, a follow-up GET /posts/1 still returned 200, showing that the post was not permanently deleted.
+- Therefore, JSONPlaceholder simulates successful POST and DELETE operations without permanently changing the server data. This shows why API testing should verify not only status codes, but also response headers, payload structure, and where appropriate the resulting system state.
